@@ -15,8 +15,8 @@ cargo install cargo-binutils
 rustup component add llvm-tools-preview
 cargo install cargo-generate
 git clone https://github.com/zccccc01/smart-devices.git
-cd smart-devices/embedded/src # 把每个实验代码拷到main.rs里, 然后 ./build.sh(需要修改路径为你的路径)
-# 打开smart-devices/embedded/target/thumbv7m-none-eabi/debug 里面有个output.hex 文件, 用flymcu烧录到开发板
+cd smart-devices/embedded/src # 把每个实验代码拷到main.rs里, 然后 cargo build --target thumbv7m-none-eabi
+# 打开smart-devices/embedded/target/thumbv7m-none-eabi/debug 把.elf的文件用objcopy转成.hex文件, 用flymcu烧录到开发板
 ```
 
 ### rust-embedded 友链
