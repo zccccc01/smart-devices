@@ -16,7 +16,43 @@ rustup component add llvm-tools-preview
 cargo install cargo-generate
 git clone https://github.com/zccccc01/smart-devices.git
 cd smart-devices/embedded/src # 把每个实验代码拷到main.rs里, 然后 cargo build --target thumbv7m-none-eabi
+# cargo objcopy --release -- -O ihex firmware.hex # 转成 hex 文件, 用 flymcu 烧录到开发板
 # 打开smart-devices/embedded/target/thumbv7m-none-eabi/debug 把.elf的文件用objcopy转成.hex文件, 用flymcu烧录到开发板
+cargo objcopy --release -- -O ihex firmware.hex
+```
+
+### 给 stm32 烧录 RT-Thread(linux)
+
+```bash
+sudo apt install gcc-arm-none-eabi
+sudo apt-get install scons
+```
+
+#### env 工具
+
+```bash
+wget https://gitee.com/RT-Thread-Mirror/env/raw/master/install_ubuntu.sh
+chmod 777 install_ubuntu.sh
+./install_ubuntu.sh --gitee
+rm install_ubuntu.sh
+source ~/.env/env.sh
+```
+
+#### 编译 RT-Thread
+
+```bash
+git clone https://github.com/RT-Thread/rt-thread.git
+cd rt-thread/bsp/stm32/stm32f103-atk-warshipv3
+scons # 编译
+arm-none-eabi-objcopy -O ihex rt-thread.elf rt-thread.hex # 转成 hex 文件, 用 flymcu 烧录到开发板
+```
+
+#### 缺少宏的报错
+
+rtconfig.h 里手动加上一句：
+
+```c
+#define BSP_STM32_UART_V1_TX_TIMEOUT 10
 ```
 
 ### rust-embedded 友链
